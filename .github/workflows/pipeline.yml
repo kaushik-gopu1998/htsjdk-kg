@@ -29,3 +29,15 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle (Skipping tests..)
         run: ./gradlew build -x test
+      - name: "Check jar, javadoc.jar, sources.jar existence"
+        id: check_jars
+        uses: andstor/file-existence-action@v2
+        with:
+          files: "build/libs/htsjdk-igb-*.jar, build/libs/htsjdk-igb-*-javadoc.jar, build/libs/htsjdk-igb-*-sources.jar"
+          fail: true
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: htsjdk-igb-jar
+          path: build/libs
+
